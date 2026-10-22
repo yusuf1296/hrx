@@ -2,6 +2,7 @@
 
 #include "GlobalContext/GlobalContext.h"
 #include "Hooks/PeepEventsHook.h"
+#include "Telemetry/Telemetry.h"
 #include "Utils/ReturnAddress.h"
 #include "AutoOffsets/AutoOffsets.h"
 
@@ -13,6 +14,7 @@
         hookContext.template make<PanoramaGUI>().init(hookContext.template make<PanoramaUiPanel>((*mainMenu)->uiPanel));
     hookContext.config().init();
     hookContext.config().scheduleLoad();
+    Telemetry::initOnce();
     hookContext.hooks().peepEventsHook.disable();
     hookContext.hooks().viewRenderHook.install();
 }
@@ -33,6 +35,7 @@ int SDLHook_PeepEvents(void* events, int numevents, int action, unsigned minType
 
 [[NOINLINE]] void unload(auto& hookContext) noexcept
 {
+    Telemetry::shutdown();
     hookContext.template make<BombTimer>().onUnload();
     hookContext.template make<DefusingAlert>().onUnload();
     hookContext.template make<PostRoundTimer>().onUnload();
@@ -89,6 +92,7 @@ void ViewRenderHook_onRenderStart(cs2::CViewRender* thisptr) noexcept
     hookContext.make<PanoramaGUI>().run(unloadFlag);
     hookContext.config().update();
     hookContext.config().performFileOperation();
+    Telemetry::heartbeat();
 
     if (unloadFlag) {
         unload(hookContext);

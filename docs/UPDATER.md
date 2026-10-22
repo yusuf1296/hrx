@@ -1,4 +1,4 @@
-# Osiris Updater — Teknik Referans
+# HRX Updater — Teknik Referans
 
 Otomatik güncelleme sisteminin tam spesifikasyonu. Akış özeti için [README](../README.md).
 
@@ -6,7 +6,7 @@ Otomatik güncelleme sisteminin tam spesifikasyonu. Akış özeti için [README]
 
 | Bileşen | Görev | Neden o? |
 | --- | --- | --- |
-| **OsirisInjector.exe** | Ağ erişimi, sürüm karşılaştırma, onay, DLL indirme ve değiştirme | Tam WinAPI erişimi var; başarısız olursa yerel DLL ile enjeksiyona devam eder |
+| **HRX.exe** | Ağ erişimi, sürüm karşılaştırma, onay, DLL indirme ve değiştirme | Tam WinAPI erişimi var; başarısız olursa yerel DLL ile enjeksiyona devam eder |
 | **Osiris.dll** | Sadece menüde "Update available" uyarısı gösterir | DLL CRT/heap/thread kullanmaz (manuel-map sözleşmesi); dosya ağı tamamen injector üstlenir |
 
 Ara bağlantı: `%APPDATA%\OsirisCS2\update_available.txt` **marker** dosyası — injector yazar, DLL okur, güncelleme tamamlanınca injector siler.
@@ -25,8 +25,8 @@ Updater'ın tek girdisi. YAYINLA.ps1 tarafından üretilir (`osiris\version.txt`
 - Örnek (üretilen hâli):
 
   ```text
-  1.4.0
-  https://github.com/yusuf1296/osiris-updater/releases/download/v1.4.0/Osiris.dll
+  1.5.0
+  https://github.com/yusuf1296/hrx/releases/download/v1.5.0/Osiris.dll
   ```
 
 ## Sürüm karşılaştırma
@@ -39,7 +39,7 @@ Updater'ın tek girdisi. YAYINLA.ps1 tarafından üretilir (`osiris\version.txt`
 ## Injector bayrakları
 
 ```text
-OsirisInjector.exe [dll-yolu] [--pid N | --process ad.exe] [--wait] [--keep-headers]
+HRX.exe [dll-yolu] [--pid N | --process ad.exe] [--wait] [--keep-headers]
                    [--check-update] [--no-update] [--update-url url] [--help]
 ```
 
@@ -64,7 +64,7 @@ Exe'nin yanına ilk çalıştırmada şablon otomatik yazılır.
 ; OsirisInjector otomatik guncelleme ayarlari
 [update]
 enabled=1
-url=https://raw.githubusercontent.com/yusuf1296/osiris-updater/main/version.txt
+url=https://raw.githubusercontent.com/yusuf1296/hrx/main/version.txt
 ```
 
 | Anahtar | Varsayılan | Açıklama |
@@ -124,3 +124,4 @@ Her adımda hata → indirme iptal edilir, **yerel DLL aynen kalır**, enjeksiyo
 1. `version.txt` — 1. satır `x.y.z`, 2. satır `https://…`
 2. README'deki sürüm rozeti `version.txt` ile aynı sayıda
 3. CHANGELOG'da sürüm bölümü varsa bilgi, yoksa uyarı (push'u engellemez)
+4. `osiris/Source/Telemetry/Telemetry.h` içindeki `kVersion` = `version.txt` 1. satır (eşleşmezse push engellenir)

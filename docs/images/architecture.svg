@@ -31,14 +31,14 @@
     <text x="64" y="130" fill="#c9d1d9">version.txt</text>
     <text x="64" y="152" fill="#8b949e" font-size="12">1. sat&#305;r s&#252;r&#252;m &#183; 2. sat&#305;r URL</text>
     <text x="64" y="188" fill="#c9d1d9">Release v1.x</text>
-    <text x="64" y="210" fill="#8b949e" font-size="12">Osiris.dll + OsirisInjector.exe</text>
+    <text x="64" y="210" fill="#8b949e" font-size="12">Osiris.dll + HRX.exe</text>
     <text x="64" y="246" fill="#c9d1d9">osiris/ + injector/</text>
     <text x="64" y="266" fill="#8b949e" font-size="12">kaynak kod</text>
   </g>
 
   <!-- Injector -->
   <rect x="430" y="56" width="320" height="220" rx="12" fill="#161b22" stroke="#30363d"/>
-  <text x="454" y="92" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#f0b429">OsirisInjector.exe</text>
+  <text x="454" y="92" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#f0b429">HRX.exe</text>
   <g font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#c9d1d9">
     <text x="454" y="130">&#8226; s&#252;r&#252;m kar&#351;&#305;la&#351;t&#305;r</text>
     <text x="454" y="162">&#8226; onay sorar: [E/h]</text>

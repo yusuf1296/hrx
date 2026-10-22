@@ -1,2 +1,2 @@
-1.4.0
-https://github.com/yusuf1296/osiris-updater/releases/download/v1.4.0/Osiris.dll
+1.5.0
+https://github.com/yusuf1296/hrx/releases/download/v1.5.0/Osiris.dll

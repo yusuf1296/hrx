@@ -39,6 +39,16 @@ jobs:
             echo "::warning::CHANGELOG.md icinde $v bolumu yok"
           fi
 
+      - name: telemetry surumu senkron
+        run: |
+          set -eu pipefail
+          v=$(sed -n '1p' version.txt | tr -d '\r')
+          f=osiris/Source/Telemetry/Telemetry.h
+          if [ ! -f "$f" ]; then echo "::error::Telemetry.h yok: $f"; exit 1; fi
+          tv=$(grep -oP 'kVersion\s*=\s*"\K[^"]+' "$f" | head -1 || true)
+          echo "telemetry=$tv"
+          if [ "$tv" != "$v" ]; then echo "::error::Telemetry.h kVersion ($tv) version.txt ($v) ile uyumsuz"; exit 1; fi
+
       - name: yasak dosyalar kontrolu
         run: |
           set -eu pipefail

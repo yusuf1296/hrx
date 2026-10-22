@@ -1,4 +1,4 @@
-# Osiris otomatik yayin betigi
+# HRX otomatik yayin betigi
 # Kullanim (tercih edilen): kokteki YAYINLA.bat'a cift tikla.
 # Ne yapar: surum dosyasini uretir -> README rozetlerini gunceller -> kaynagi senkronlar
 #           -> GitHub Release (vSURUM) + dosya yukler -> push eder.
@@ -11,9 +11,9 @@ $pub = Split-Path -Parent $MyInvocation.MyCommand.Path
 $root = Split-Path -Parent $pub
 $osiris = Join-Path $root "osiris"
 $injector = Join-Path $root "osiris-injector"
-$repoApi = "https://api.github.com/repos/yusuf1296/osiris-updater"
-$repoWeb = "https://github.com/yusuf1296/osiris-updater"
-$assetDir = "https://github.com/yusuf1296/osiris-updater/releases/download"
+$repoApi = "https://api.github.com/repos/yusuf1296/hrx"
+$repoWeb = "https://github.com/yusuf1296/hrx"
+$assetDir = "https://github.com/yusuf1296/hrx/releases/download"
 
 function Write-Utf8NoBom([string]$path, [string]$text)
 {
@@ -60,7 +60,7 @@ if ($version -notmatch '^\d+\.\d+\.\d+$') { Fail "gecersiz surum: '$version'" }
 
 Write-Host ""
 Write-Host ("=" * 64) -ForegroundColor DarkCyan
-Write-Host "  OSIRIS YAYIN  -  surum $version" -ForegroundColor Cyan
+Write-Host "  HRX YAYIN  -  surum $version" -ForegroundColor Cyan
 Write-Host "  $repoWeb" -ForegroundColor DarkGray
 Write-Host ("=" * 64) -ForegroundColor DarkCyan
 Write-Host ""
@@ -69,7 +69,12 @@ Step 1 $totalSteps "surum dogrulandi: $version"
 # --- 2) derleme kontrolu ---
 $dllPath = Join-Path $osiris "x64\Release\Osiris.dll"
 if (-not (Test-Path $dllPath)) { Fail "Osiris.dll yok. Once Release x64 derle (Osiris.sln)." }
-$exePath = Join-Path $injector "OsirisInjector.exe"
+$exePath = Join-Path $injector "HRX.exe"
+if (-not (Test-Path $exePath)) {
+    $legacyExe = Join-Path $injector "OsirisInjector.exe"
+    if (Test-Path $legacyExe) { $exePath = $legacyExe }
+}
+$exeAssetName = Split-Path -Leaf $exePath
 Step 2 $totalSteps "derleme bulundu: Osiris.dll (Release x64)"
 
 # --- 3) surum dosyasi (2. satir = release adresi) + README rozetleri ---
@@ -87,7 +92,7 @@ Step 3 $totalSteps "version.txt + README rozetleri guncellendi"
 # --- 4) kaynak senkronu ---
 try {
     Sync-Tree $osiris (Join-Path $pub "osiris") @(".git", "x64", ".vs", "build") @("*.user", "*.opendb", "*.suo")
-    Sync-Tree $injector (Join-Path $pub "injector") @(".vs") @("*.obj", "OsirisInjector.exe")
+    Sync-Tree $injector (Join-Path $pub "injector") @(".vs") @("*.obj", "OsirisInjector.exe", "HRX.exe")
 } catch {
     Fail $_.Exception.Message
 }
@@ -110,7 +115,7 @@ if ($LASTEXITCODE -ne 0) {
 $tokenPath = Join-Path $env:USERPROFILE ".osiris_gh_token"
 if (-not (Test-Path $tokenPath)) { Fail "token yok: $tokenPath" }
 $token = (Get-Content $tokenPath -Raw).Trim()
-$headers = @{ Authorization = "Bearer $token"; "User-Agent" = "osiris-publish"; Accept = "application/vnd.github+json" }
+$headers = @{ Authorization = "Bearer $token"; "User-Agent" = "hrx-publish"; Accept = "application/vnd.github+json" }
 $tag = "v$version"
 
 $release = $null
@@ -124,7 +129,7 @@ try {
         $match = [regex]::Match($changelog, "(?ms)^## \[?$([regex]::Escape($version))\]?(\s|$).*?(?=^## |\z)")
         if ($match.Success) { $notes = $match.Value.Trim() }
     }
-    $body = @{ tag_name = $tag; target_commitish = "main"; name = "Osiris $version"; body = $notes; draft = $false; prerelease = $false } | ConvertTo-Json
+    $body = @{ tag_name = $tag; target_commitish = "main"; name = "HRX $version"; body = $notes; draft = $false; prerelease = $false } | ConvertTo-Json
     try {
         $release = Invoke-RestMethod -Uri "$repoApi/releases" -Method Post -Headers $headers -Body $body -TimeoutSec 30
         Detail "release olusturuldu: $tag" "DarkGreen"
@@ -153,19 +158,19 @@ if ($existingAssets -contains "Osiris.dll") {
 
 # Injector (opsiyonel - yoksa sadece uyar)
 if (Test-Path $exePath) {
-    if ($existingAssets -contains "OsirisInjector.exe") {
-        Detail "OsirisInjector.exe zaten release'te"
+    if ($existingAssets -contains $exeAssetName) {
+        Detail "$exeAssetName zaten release'te"
     } else {
-        $code = curl.exe -sS -w "%{http_code}" -o (Join-Path $env:TEMP "osiris_asset_resp.json") -X POST -H "Authorization: Bearer $token" -H "Content-Type: application/octet-stream" --data-binary "@$exePath" "$($uploadBase)?name=OsirisInjector.exe"
+        $code = curl.exe -sS -w "%{http_code}" -o (Join-Path $env:TEMP "osiris_asset_resp.json") -X POST -H "Authorization: Bearer $token" -H "Content-Type: application/octet-stream" --data-binary "@$exePath" "$($uploadBase)?name=$exeAssetName"
         if ($code -ne "201") {
             Detail "UYARI: injector yuklenemedi (http $code), sonraki yayinda tekrar denenir" "Yellow"
             $exeWarn = $true
         } else {
-            Detail "OsirisInjector.exe yuklendi" "DarkGreen"
+            Detail "$exeAssetName yuklendi" "DarkGreen"
         }
     }
 } else {
-    Detail "UYARI: OsirisInjector.exe yok (build.bat ile derle), release'a eklenmedi" "Yellow"
+    Detail "UYARI: HRX.exe yok (build.bat ile derle), release'a eklenmedi" "Yellow"
     $exeWarn = $true
 }
 
@@ -185,6 +190,6 @@ Write-Host ("-" * 64) -ForegroundColor DarkCyan
 Write-Host "  YAYIN TAMAM - surum $version" -ForegroundColor Green
 Write-Host "  version : $repoWeb/blob/main/version.txt" -ForegroundColor Gray
 Write-Host "  release : $repoWeb/releases/tag/$tag" -ForegroundColor Gray
-Write-Host "  Kullanicilar OsirisInjector.exe'yi yeniden calistirinca guncelleyecek." -ForegroundColor DarkGray
+Write-Host "  Kullanicilar HRX.exe'yi yeniden calistirinca guncelleyecek." -ForegroundColor DarkGray
 Write-Host ("-" * 64) -ForegroundColor DarkCyan
 exit 0

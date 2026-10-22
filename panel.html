@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HRX — Yönetim Paneli</title>
+<style>
+  :root {
+    --bg: #0b1220;
+    --bg2: #0f172a;
+    --panel: #111827;
+    --panel2: #161b22;
+    --border: #2a3242;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --dim: #484f58;
+    --green: #3fb950;
+    --yellow: #d29922;
+    --gray: #6e7681;
+    --blue: #58a6ff;
+    --cyan: #22d3ee;
+    --violet: #818cf8;
+    --pink: #f472b6;
+    --accent: linear-gradient(90deg, #22d3ee, #818cf8, #f472b6);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(900px 500px at 85% -10%, rgba(129,140,248,.12), transparent 60%),
+      radial-gradient(700px 420px at 5% 110%, rgba(34,211,238,.10), transparent 60%),
+      var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", "Segoe UI Variable", Arial, sans-serif;
+    min-height: 100vh;
+  }
+  .topline { height: 3px; background: var(--accent); }
+  header {
+    display: flex; align-items: center; gap: 16px;
+    padding: 18px 28px; border-bottom: 1px solid var(--border);
+    background: rgba(15,23,42,.7); backdrop-filter: blur(6px);
+    position: sticky; top: 0; z-index: 5;
+  }
+  header h1 { font-size: 20px; margin: 0; letter-spacing: .4px; }
+  header h1 .grad { background: var(--accent); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 800; }
+  header .sub { color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+  header .spacer { flex: 1; }
+  .btn {
+    background: var(--panel2); color: var(--text); border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 14px; font-size: 13px; cursor: pointer;
+    text-decoration: none; transition: border-color .15s, background .15s;
+  }
+  .btn:hover { border-color: var(--blue); background: #1c2230; }
+  .btn.primary { background: #1f6feb; border-color: #1f6feb; }
+  .btn.primary:hover { background: #388bfd; }
+  main { max-width: 1180px; margin: 0 auto; padding: 24px 28px 60px; }
+
+  .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
+  .card {
+    background: linear-gradient(180deg, var(--panel), var(--panel2));
+    border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px;
+    position: relative; overflow: hidden;
+  }
+  .card::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--c, var(--cyan)); }
+  .card .label { color: var(--muted); font-size: 12.5px; text-transform: uppercase; letter-spacing: .8px; }
+  .card .value { font-size: 34px; font-weight: 700; margin-top: 6px; }
+  .card .hint { color: var(--dim); font-size: 12px; margin-top: 4px; }
+
+  .panel {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    margin-bottom: 22px; overflow: hidden;
+  }
+  .panel h2 {
+    font-size: 15px; margin: 0; padding: 14px 18px;
+    border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px;
+  }
+  .panel h2 .count { color: var(--muted); font-weight: 400; font-size: 13px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { text-align: left; padding: 10px 18px; border-bottom: 1px solid #1c2230; }
+  th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .6px; background: #0d1117; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #131a26; }
+  td.mono { font-family: Consolas, "Cascadia Mono", monospace; }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 600; }
+  .badge.on  { background: rgba(63,185,80,.15); color: var(--green); border: 1px solid rgba(63,185,80,.4); }
+  .badge.near{ background: rgba(210,153,34,.14); color: var(--yellow); border: 1px solid rgba(210,153,34,.4); }
+  .badge.off { background: rgba(110,118,129,.12); color: var(--gray); border: 1px solid rgba(110,118,129,.4); }
+  .empty { padding: 26px 18px; color: var(--muted); text-align: center; font-size: 13.5px; }
+
+  footer {
+    display: flex; gap: 18px; align-items: center; color: var(--dim); font-size: 12.5px;
+    padding: 4px 2px;
+  }
+  footer .err { color: #f85149; }
+  footer .ok { color: var(--green); }
+
+  .overlay {
+    position: fixed; inset: 0; background: rgba(3,7,18,.82); z-index: 40;
+    display: flex; align-items: center; justify-content: center; backdrop-filter: blur(3px);
+  }
+  .modal {
+    width: min(560px, 92vw); background: var(--panel); border: 1px solid var(--border);
+    border-radius: 14px; padding: 24px 26px; box-shadow: 0 24px 70px rgba(0,0,0,.5);
+  }
+  .modal h3 { margin: 0 0 6px; font-size: 17px; }
+  .modal p { color: var(--muted); font-size: 13px; line-height: 1.55; margin: 0 0 16px; }
+  .modal label { display: block; font-size: 12.5px; color: var(--muted); margin: 12px 0 6px; }
+  .modal input {
+    width: 100%; background: #0d1117; color: var(--text); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 12px; font-size: 13px; font-family: Consolas, monospace;
+  }
+  .modal input:focus { outline: none; border-color: var(--cyan); }
+  .modal .row { display: flex; gap: 10px; justify-content: flex-end; margin-top: 18px; }
+  .modal .note { font-size: 12px; color: var(--dim); margin-top: 12px; line-height: 1.5; }
+  .hidden { display: none !important; }
+  a.link { color: var(--blue); text-decoration: none; }
+  a.link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="topline"></div>
+
+<header>
+  <div>
+    <h1><span class="grad">HRX</span> Yönetim Paneli</h1>
+    <div class="sub">Supabase checkins + GitHub releases — canlı kullanıcı takibi</div>
+  </div>
+  <div class="spacer"></div>
+  <a class="btn" href="https://github.com/yusuf1296/hrx" target="_blank" rel="noreferrer">Depo</a>
+  <button class="btn" id="btnReleases">Release'leri yenile</button>
+  <button class="btn" id="btnSettings">Ayarlar</button>
+</header>
+
+<main>
+  <section class="cards">
+    <div class="card" style="--c: var(--green)">
+      <div class="label">Şu an aktif</div>
+      <div class="value" id="cardActive">—</div>
+      <div class="hint">son 5 dk içinde check-in atan PC</div>
+    </div>
+    <div class="card" style="--c: var(--cyan)">
+      <div class="label">Benzersiz PC</div>
+      <div class="value" id="cardUnique">—</div>
+      <div class="hint">son 24 saatte görülen</div>
+    </div>
+    <div class="card" style="--c: var(--violet)">
+      <div class="label">Check-in (24s)</div>
+      <div class="value" id="cardCheckins">—</div>
+      <div class="hint">toplam heartbeat satırı</div>
+    </div>
+    <div class="card" style="--c: var(--pink)">
+      <div class="label">Toplam indirme</div>
+      <div class="value" id="cardDownloads">—</div>
+      <div class="hint">tüm release varlıkları</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Canlı kullanıcılar <span class="count" id="userMeta"></span></h2>
+    <div id="usersWrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Kullanıcı</th>
+            <th>PC</th>
+            <th>Steam</th>
+            <th>Sürüm</th>
+            <th>Son görülme</th>
+            <th>Durum</th>
+          </tr>
+        </thead>
+        <tbody id="usersBody"></tbody>
+      </table>
+      <div class="empty hidden" id="usersEmpty">Henüz veri yok — DLL ilk check-in'i gönderdiğinde burada görünecek.</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Releases <span class="count" id="relMeta"></span></h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Sürüm</th>
+          <th>Tarih</th>
+          <th>Osiris.dll</th>
+          <th>HRX.exe</th>
+          <th>Notlar</th>
+        </tr>
+      </thead>
+      <tbody id="relBody"></tbody>
+    </table>
+    <div class="empty hidden" id="relEmpty">Release bulunamadı.</div>
+  </section>
+
+  <footer>
+    <span id="footStatus">Hazır.</span>
+    <span class="spacer" style="flex:1"></span>
+    <span>Otomatik yenileme: 15 sn</span>
+  </footer>
+</main>
+
+<!-- Ayarlar / anahtar -->
+<div class="overlay hidden" id="overlay">
+  <div class="modal">
+    <h3 id="modalTitle">Supabase bağlantısı</h3>
+    <p id="modalText">
+      Canlı veriyi okumak için projenin <b>service_role</b> anahtarı gerekir.
+      Supabase dashboard → <b>Settings → API</b> → <code>service_role</code> (secret) bölümünden alıp yapıştır.
+      Anahtar yalnızca bu tarayıcıda (localStorage) saklanır; hiçbir yere gönderilmez.
+    </p>
+    <label>Supabase proje adresi</label>
+    <input id="inpUrl" spellcheck="false" placeholder="https://xxxx.supabase.co">
+    <label>service_role anahtarı (JWT)</label>
+    <input id="inpKey" type="password" spellcheck="false" placeholder="eyJhbGciOi...">
+    <div class="note">
+      RLS düzeni: anon anahtar yalnızca <b>INSERT</b> yapabilir (DLL bunu kullanır),
+      okuma yetkisi yalnızca service_role'dedir.
+    </div>
+    <div class="row">
+      <button class="btn hidden" id="btnCancel">Vazgeç</button>
+      <button class="btn primary" id="btnSave">Kaydet ve bağlan</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var DEFAULT_URL = "https://xpswzknwjxqonvvxdrao.supabase.co";
+  var REPO = "yusuf1296/hrx";
+  var LS_URL = "hrx.supabaseUrl";
+  var LS_KEY = "hrx.serviceKey";
+  var ACTIVE_MS = 5 * 60 * 1000;
+  var NEAR_MS = 60 * 60 * 1000;
+  var DAY_MS = 24 * 60 * 60 * 1000;
+
+  var state = {
+    url: localStorage.getItem(LS_URL) || DEFAULT_URL,
+    key: localStorage.getItem(LS_KEY) || "",
+    rows: [],
+    releases: [],
+    timer: null
+  };
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  function setStatus(text, cls) {
+    var el = $("footStatus");
+    el.textContent = text;
+    el.className = cls || "";
+  }
+
+  function relTime(ts) {
+    var diff = Date.now() - new Date(ts).getTime();
+    if (isNaN(diff)) return "—";
+    if (diff < 60000) return "az önce";
+    var m = Math.floor(diff / 60000);
+    if (m < 60) return m + " dk önce";
+    var h = Math.floor(m / 60);
+    if (h < 24) return h + " sa önce";
+    return Math.floor(h / 24) + " gün önce";
+  }
+
+  function fmtDate(iso) {
+    try {
+      return new Date(iso).toLocaleDateString("tr-TR", { day: "2-digit", month: "short", year: "numeric" });
+    } catch (e) { return iso; }
+  }
+
+  function cell(row, tag, text, cls) {
+    var td = document.createElement(tag);
+    if (cls) td.className = cls;
+    td.textContent = text == null ? "" : String(text);
+    row.appendChild(td);
+    return td;
+  }
+
+  function badgeFor(ts) {
+    var age = Date.now() - new Date(ts).getTime();
+    var span = document.createElement("span");
+    if (age <= ACTIVE_MS) { span.className = "badge on"; span.textContent = "Aktif"; }
+    else if (age <= NEAR_MS) { span.className = "badge near"; span.textContent = "Yakın"; }
+    else { span.className = "badge off"; span.textContent = "Pasif"; }
+    return span;
+  }
+
+  // Oturum bazında en son check-in (session = DLL yükleme anı)
+  function latestPerSession(rows) {
+    var map = {};
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i];
+      if (!r || !r.session || !r.ts) continue;
+      var prev = map[r.session];
+      if (!prev || new Date(r.ts) > new Date(prev.ts)) map[r.session] = r;
+    }
+    var out = [];
+    for (var k in map) out.push(map[k]);
+    out.sort(function (a, b) { return new Date(b.ts) - new Date(a.ts); });
+    return out;
+  }
+
+  function renderUsers() {
+    var sessions = latestPerSession(state.rows);
+    var body = $("usersBody");
+    body.textContent = "";
+    var now = Date.now();
+
+    var activePc = {}, uniquePc = {};
+    var checkins24 = 0;
+    for (var i = 0; i < state.rows.length; i++) {
+      var ts = new Date(state.rows[i].ts).getTime();
+      if (!isNaN(ts) && now - ts <= DAY_MS) {
+        checkins24++;
+        if (state.rows[i].pc) uniquePc[state.rows[i].pc.toLowerCase()] = 1;
+      }
+    }
+    for (var j = 0; j < sessions.length; j++) {
+      var age = now - new Date(sessions[j].ts).getTime();
+      if (age <= ACTIVE_MS && sessions[j].pc) activePc[sessions[j].pc.toLowerCase()] = 1;
+    }
+
+    $("cardActive").textContent = Object.keys(activePc).length;
+    $("cardUnique").textContent = Object.keys(uniquePc).length;
+    $("cardCheckins").textContent = checkins24;
+
+    var shown = sessions.slice(0, 150);
+    for (var s = 0; s < shown.length; s++) {
+      var r = shown[s];
+      var tr = document.createElement("tr");
+      cell(tr, "td", r.winuser || "—");
+      cell(tr, "td", r.pc || "—");
+      cell(tr, "td", r.steam || "—");
+      cell(tr, "td", r.version || "—", "mono");
+      cell(tr, "td", relTime(r.ts));
+      var td = document.createElement("td");
+      td.appendChild(badgeFor(r.ts));
+      tr.appendChild(td);
+      body.appendChild(tr);
+    }
+
+    $("usersEmpty").classList.toggle("hidden", shown.length > 0);
+    $("userMeta").textContent = shown.length
+      ? "· " + shown.length + " oturum (en yeni 150) · toplam " + state.rows.length + " satır"
+      : "";
+  }
+
+  function renderReleases() {
+    var body = $("relBody");
+    body.textContent = "";
+    var total = 0;
+    for (var i = 0; i < state.releases.length; i++) {
+      var rel = state.releases[i];
+      var dll = 0, exe = 0;
+      var assets = rel.assets || [];
+      for (var a = 0; a < assets.length; a++) {
+        total += assets[a].download_count || 0;
+        if (assets[a].name === "Osiris.dll") dll = assets[a].download_count;
+        if (assets[a].name === "HRX.exe" || assets[a].name === "OsirisInjector.exe") exe = assets[a].download_count;
+      }
+      var tr = document.createElement("tr");
+      var nameCell = cell(tr, "td", rel.tag_name || "—", "mono");
+      if (rel.html_url) {
+        var link = document.createElement("a");
+        link.className = "link";
+        link.href = rel.html_url;
+        link.target = "_blank";
+        link.rel = "noreferrer";
+        link.textContent = rel.tag_name || "—";
+        nameCell.textContent = "";
+        nameCell.appendChild(link);
+      }
+      cell(tr, "td", fmtDate(rel.published_at || rel.created_at));
+      cell(tr, "td", dll);
+      cell(tr, "td", exe);
+      cell(tr, "td", rel.name || "");
+      body.appendChild(tr);
+    }
+    $("cardDownloads").textContent = total;
+    $("relEmpty").classList.toggle("hidden", state.releases.length > 0);
+    $("relMeta").textContent = state.releases.length ? "· " + state.releases.length + " sürüm" : "";
+  }
+
+  function needKey() {
+    $("overlay").classList.remove("hidden");
+    $("btnCancel").classList.toggle("hidden", !!state.key);
+    $("modalTitle").textContent = state.key ? "Bağlantı hatası" : "Supabase bağlantısı";
+    $("inpUrl").value = state.url || DEFAULT_URL;
+    $("inpKey").value = state.key || "";
+  }
+
+  function fetchCheckins() {
+    if (!state.key) { needKey(); return Promise.resolve(); }
+    var url = state.url.replace(/\/+$/, "") +
+      "/rest/v1/checkins?select=session,pc,winuser,steam,version,in_game,ts&order=ts.desc&limit=1000";
+    return fetch(url, {
+      headers: {
+        "apikey": state.key,
+        "Authorization": "Bearer " + state.key
+      }
+    }).then(function (r) {
+      if (r.status === 401 || r.status === 403) {
+        needKey();
+        setStatus("Anahtar geçersiz (HTTP " + r.status + ").", "err");
+        throw new Error("auth");
+      }
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.json();
+    }).then(function (rows) {
+      state.rows = rows || [];
+      renderUsers();
+      var t = new Date().toLocaleTimeString("tr-TR");
+      setStatus("Check-in verisi güncel — " + t, "ok");
+    }).catch(function (e) {
+      if (e && e.message !== "auth") setStatus("Check-in hatası: " + e.message, "err");
+    });
+  }
+
+  function fetchReleases() {
+    return fetch("https://api.github.com/repos/" + REPO + "/releases?per_page=20", {
+      headers: { "Accept": "application/vnd.github+json" }
+    }).then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.json();
+    }).then(function (rels) {
+      state.releases = rels || [];
+      renderReleases();
+    }).catch(function (e) {
+      setStatus("Release listesi alınamadı: " + e.message, "err");
+    });
+  }
+
+  function refreshAll() {
+    fetchCheckins();
+  }
+
+  function startTimer() {
+    if (state.timer) clearInterval(state.timer);
+    state.timer = setInterval(fetchCheckins, 15000);
+  }
+
+  $("btnSettings").addEventListener("click", function () {
+    needKey();
+    $("btnCancel").classList.remove("hidden");
+  });
+  $("btnReleases").addEventListener("click", function () {
+    fetchReleases();
+    fetchCheckins();
+  });
+  $("btnSave").addEventListener("click", function () {
+    var url = ($("inpUrl").value || "").trim() || DEFAULT_URL;
+    var key = ($("inpKey").value || "").trim();
+    if (!key) { setStatus("Anahtar boş bırakılamaz.", "err"); return; }
+    state.url = url;
+    state.key = key;
+    localStorage.setItem(LS_URL, url);
+    localStorage.setItem(LS_KEY, key);
+    $("overlay").classList.add("hidden");
+    fetchReleases();
+    refreshAll();
+    startTimer();
+  });
+  $("btnCancel").addEventListener("click", function () {
+    if (state.key) $("overlay").classList.add("hidden");
+  });
+
+  // ilk açılış
+  if (!state.key) needKey();
+  fetchReleases();
+  refreshAll();
+  startTimer();
+})();
+</script>
+</body>
+</html>
