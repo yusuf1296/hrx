@@ -1,2 +1,2 @@
 1.4.0
-Osiris.dll
+https://github.com/yusuf1296/osiris-updater/releases/download/v1.4.0/Osiris.dll
