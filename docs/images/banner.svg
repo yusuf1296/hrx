@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" role="img" aria-label="Osiris Updater">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1220"/>
+      <stop offset="0.55" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="0.5" stop-color="#818cf8"/>
+      <stop offset="1" stop-color="#f472b6"/>
+    </linearGradient>
+    <linearGradient id="accentV" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="0.5" stop-color="#818cf8"/>
+      <stop offset="1" stop-color="#f472b6"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#818cf8" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#818cf8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#ffffff" stroke-opacity="0.04"/>
+    </pattern>
+  </defs>
+
+  <rect width="1280" height="320" fill="url(#bg)"/>
+  <rect width="1280" height="320" fill="url(#grid)"/>
+  <circle cx="1120" cy="40" r="320" fill="url(#glow1)"/>
+  <circle cx="120" cy="300" r="260" fill="url(#glow2)"/>
+  <rect width="1280" height="4" fill="url(#accent)"/>
+  <rect y="316" width="1280" height="4" fill="url(#accent)"/>
+
+  <circle cx="152" cy="160" r="66" fill="none" stroke="url(#accentV)" stroke-width="3"/>
+  <path d="M152 124 V182" stroke="url(#accentV)" stroke-width="9" stroke-linecap="round"/>
+  <path d="M126 158 L152 184 L178 158" fill="none" stroke="url(#accentV)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M122 202 H182" stroke="url(#accentV)" stroke-width="7" stroke-linecap="round"/>
+
+  <text x="272" y="150" font-family="Segoe UI, Segoe UI Variable, Arial, sans-serif" font-size="64" font-weight="700" fill="#f8fafc">Osiris <tspan fill="url(#accent)">Updater</tspan></text>
+  <text x="274" y="204" font-family="Segoe UI, Segoe UI Variable, Arial, sans-serif" font-size="25" fill="#94a3b8">CS2 auto-update hub &#8212; version file, releases and source in one repo</text>
+
+  <rect x="274" y="234" width="64" height="32" rx="16" fill="#ffffff" fill-opacity="0.06" stroke="#ffffff" stroke-opacity="0.18"/>
+  <text x="306" y="255" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#cbd5e1" text-anchor="middle">MIT</text>
+  <rect x="350" y="234" width="128" height="32" rx="16" fill="#ffffff" fill-opacity="0.06" stroke="#ffffff" stroke-opacity="0.18"/>
+  <text x="414" y="255" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#cbd5e1" text-anchor="middle">Windows x64</text>
+  <rect x="490" y="234" width="160" height="32" rx="16" fill="#ffffff" fill-opacity="0.06" stroke="#ffffff" stroke-opacity="0.18"/>
+  <text x="570" y="255" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#cbd5e1" text-anchor="middle">one-click publish</text>
+</svg>

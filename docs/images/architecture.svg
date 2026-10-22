@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 560" role="img" aria-label="Guncelleme mimarisi diyagrami">
+  <defs>
+    <marker id="arrB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#58a6ff"/>
+    </marker>
+    <marker id="arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#3fb950"/>
+    </marker>
+    <marker id="arrP" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#bc8cff"/>
+    </marker>
+    <marker id="arrN" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#8b949e"/>
+    </marker>
+    <linearGradient id="topline" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="0.5" stop-color="#818cf8"/>
+      <stop offset="1" stop-color="#f472b6"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1160" height="560" rx="16" fill="#0d1117"/>
+  <rect width="1160" height="4" rx="2" fill="url(#topline)"/>
+  <text x="40" y="36" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="600" fill="#e6edf3">G&#252;ncelleme mimarisi</text>
+  <text x="234" y="36" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#8b949e">&#183; t&#252;m ad&#305;mlar fail-safe</text>
+
+  <!-- GitHub -->
+  <rect x="40" y="56" width="320" height="220" rx="12" fill="#161b22" stroke="#30363d"/>
+  <text x="64" y="92" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#58a6ff">GitHub</text>
+  <g font-family="Cascadia Mono, Consolas, monospace" font-size="14">
+    <text x="64" y="130" fill="#c9d1d9">version.txt</text>
+    <text x="64" y="152" fill="#8b949e" font-size="12">1. sat&#305;r s&#252;r&#252;m &#183; 2. sat&#305;r URL</text>
+    <text x="64" y="188" fill="#c9d1d9">Release v1.x</text>
+    <text x="64" y="210" fill="#8b949e" font-size="12">Osiris.dll + OsirisInjector.exe</text>
+    <text x="64" y="246" fill="#c9d1d9">osiris/ + injector/</text>
+    <text x="64" y="266" fill="#8b949e" font-size="12">kaynak kod</text>
+  </g>
+
+  <!-- Injector -->
+  <rect x="430" y="56" width="320" height="220" rx="12" fill="#161b22" stroke="#30363d"/>
+  <text x="454" y="92" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#f0b429">OsirisInjector.exe</text>
+  <g font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#c9d1d9">
+    <text x="454" y="130">&#8226; s&#252;r&#252;m kar&#351;&#305;la&#351;t&#305;r</text>
+    <text x="454" y="162">&#8226; onay sorar: [E/h]</text>
+    <text x="454" y="194">&#8226; PE x64 do&#287;rular</text>
+    <text x="454" y="226">&#8226; .bak yede&#287;i + de&#287;i&#351;tir</text>
+    <text x="454" y="258" fill="#8b949e" font-size="13">tek g&#246;rev: s&#252;r&#252;m kontrol&#252; + de&#287;i&#351;tirme</text>
+  </g>
+
+  <!-- Marker -->
+  <rect x="820" y="268" width="300" height="96" rx="12" fill="#161b22" stroke="#30363d"/>
+  <text x="844" y="302" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#bc8cff">Marker dosyas&#305;</text>
+  <g font-family="Cascadia Mono, Consolas, monospace" font-size="12">
+    <text x="844" y="328" fill="#c9d1d9">%APPDATA%\OsirisCS2\</text>
+    <text x="844" y="348" fill="#8b949e">update_available.txt</text>
+  </g>
+
+  <!-- DLL in game -->
+  <rect x="820" y="56" width="300" height="164" rx="12" fill="#161b22" stroke="#30363d"/>
+  <text x="844" y="92" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#3fb950">Osiris.dll (oyun i&#231;i)</text>
+  <g font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#c9d1d9">
+    <text x="844" y="130">PanoramaGUI::init() okur</text>
+    <text x="844" y="162">men&#252;de <tspan font-weight="700" fill="#f0b429">UpdateStatus</tspan></text>
+    <text x="844" y="194" fill="#8b949e" font-size="13">turuncu uyar&#305; + tooltip</text>
+  </g>
+
+  <!-- Local files -->
+  <rect x="430" y="348" width="320" height="104" rx="12" fill="#161b22" stroke="#30363d"/>
+  <text x="454" y="384" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#8b949e">Yerel klas&#246;r</text>
+  <text x="454" y="414" font-family="Cascadia Mono, Consolas, monospace" font-size="13" fill="#c9d1d9">Osiris.dll &#183; Osiris.version</text>
+  <text x="454" y="436" font-family="Cascadia Mono, Consolas, monospace" font-size="13" fill="#8b949e">Osiris.dll.bak (yedek)</text>
+
+  <!-- Arrows: GitHub -> Injector -->
+  <line x1="360" y1="120" x2="424" y2="120" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrB)"/>
+  <text x="392" y="110" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#58a6ff" text-anchor="middle">GET version.txt</text>
+  <line x1="360" y1="196" x2="424" y2="196" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrB)"/>
+  <text x="392" y="186" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#58a6ff" text-anchor="middle">GET Osiris.dll</text>
+
+  <!-- Injector -> Local (change) -->
+  <line x1="560" y1="276" x2="560" y2="342" stroke="#3fb950" stroke-width="2" marker-end="url(#arrG)"/>
+  <text x="570" y="316" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#3fb950">indir &#183; do&#287;rula</text>
+
+  <!-- Local -> Injector (version read) dashed -->
+  <line x1="660" y1="342" x2="660" y2="282" stroke="#8b949e" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arrN)"/>
+  <text x="670" y="316" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#8b949e">Osiris.version oku</text>
+
+  <!-- Injector -> Marker (write) -->
+  <polyline points="750,240 790,240 790,316 814,316" fill="none" stroke="#bc8cff" stroke-width="2" marker-end="url(#arrP)"/>
+  <text x="798" y="236" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#bc8cff" text-anchor="middle">yaz</text>
+
+  <!-- Marker -> DLL (read) -->
+  <line x1="970" y1="262" x2="970" y2="226" stroke="#bc8cff" stroke-width="2" marker-end="url(#arrP)"/>
+  <text x="984" y="250" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#bc8cff">oku</text>
+
+  <!-- Footer -->
+  <text x="580" y="508" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#8b949e" text-anchor="middle">A&#287; / dosya hatas&#305; olursa indirme iptal edilir &#8212; yerel DLL aynen kal&#305;r, enjeksiyon devam eder</text>
+  <text x="580" y="534" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#484f58" text-anchor="middle">G&#252;ncelleme tamamlan&#305;nca injector marker&#305; siler &#183; detay: docs/UPDATER.md</text>
+</svg>

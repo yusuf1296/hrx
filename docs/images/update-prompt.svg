@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 320" role="img" aria-label="Injector konsol ciktisi ornegi">
+  <defs>
+    <clipPath id="win">
+      <rect width="960" height="270" rx="14"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#win)">
+    <rect width="960" height="270" fill="#0d1117"/>
+    <rect width="960" height="44" fill="#161b22"/>
+    <line x1="0" y1="44" x2="960" y2="44" stroke="#30363d"/>
+    <circle cx="26" cy="22" r="7" fill="#ff5f57"/>
+    <circle cx="48" cy="22" r="7" fill="#febc2e"/>
+    <circle cx="70" cy="22" r="7" fill="#28c840"/>
+    <text x="480" y="27" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#8b949e" text-anchor="middle">OsirisInjector.exe &#183; y&#246;netici</text>
+
+    <g font-family="Cascadia Mono, Consolas, Courier New, monospace" font-size="16">
+      <text x="30" y="86" fill="#e6edf3">Osiris manual-map injector</text>
+      <text x="30" y="118" fill="#7d8590">DLL: C:\Users\Oyuncu\Desktop\Osiris.dll</text>
+      <text x="30" y="150" fill="#f0b429" font-weight="bold">GUNCELLEME BULUNDU: 1.4.0 -&gt; 1.4.1</text>
+      <text x="30" y="182" fill="#e6edf3">Indirilsin mi? [E/h]: <tspan fill="#3fb950" font-weight="bold">E</tspan></text>
+      <text x="30" y="214" fill="#3fb950">guncelleme tamamlandi: 1.4.0 -&gt; 1.4.1</text>
+    </g>
+    <rect x="30" y="232" width="10" height="18" fill="#3fb950" opacity="0.9"/>
+  </g>
+  <rect x="0.5" y="0.5" width="959" height="269" rx="14" fill="none" stroke="#30363d"/>
+
+  <text x="480" y="304" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#8b949e" text-anchor="middle">Ger&#231;ek konsol &#231;&#305;kty&#305;s&#305; &#8212; Enter veya E onaylar, h reddeder (men&#252;de uyar&#305; kal&#305;r)</text>
+</svg>
