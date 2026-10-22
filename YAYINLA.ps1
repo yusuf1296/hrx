@@ -108,7 +108,7 @@ if ($existingAssets -contains "Osiris.dll") {
     Write-Host "- Osiris.dll zaten release'te"
 } else {
     Write-Host "- Osiris.dll yukleniyor..."
-    $code = curl.exe -sS -w "%{http_code}" -o (Join-Path $env:TEMP "osiris_asset_resp.json") -X POST -H "Authorization: Bearer $token" -H "Content-Type: application/octet-stream" --data-binary "@$dllPath" "$uploadBase?name=Osiris.dll"
+    $code = curl.exe -sS -w "%{http_code}" -o (Join-Path $env:TEMP "osiris_asset_resp.json") -X POST -H "Authorization: Bearer $token" -H "Content-Type: application/octet-stream" --data-binary "@$dllPath" "$($uploadBase)?name=Osiris.dll"
     if ($code -ne "201") {
         $errText = ""
         $errFile = Join-Path $env:TEMP "osiris_asset_resp.json"
@@ -125,7 +125,7 @@ if (Test-Path $exePath) {
         Write-Host "- OsirisInjector.exe zaten release'te"
     } else {
         Write-Host "- OsirisInjector.exe yukleniyor..."
-        $code = curl.exe -sS -w "%{http_code}" -o (Join-Path $env:TEMP "osiris_asset_resp.json") -X POST -H "Authorization: Bearer $token" -H "Content-Type: application/octet-stream" --data-binary "@$exePath" "$uploadBase?name=OsirisInjector.exe"
+        $code = curl.exe -sS -w "%{http_code}" -o (Join-Path $env:TEMP "osiris_asset_resp.json") -X POST -H "Authorization: Bearer $token" -H "Content-Type: application/octet-stream" --data-binary "@$exePath" "$($uploadBase)?name=OsirisInjector.exe"
         if ($code -ne "201") {
             Write-Host "- UYARI: injector yuklenemedi (http $code), sonraki yayinda tekrar denenir"
         } else {
