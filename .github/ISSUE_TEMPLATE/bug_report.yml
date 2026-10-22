@@ -1,0 +1,61 @@
+name: Hata bildir
+description: Güncelleme veya enjeksiyon sorununu raporla
+title: "[Hata]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Rapora **sürüm** bilgisini eklersen çözüm çok hızlanır.
+        Çıktıyı olduğu gibi yapıştır — düzenlemeden.
+
+  - type: input
+    id: version
+    attributes:
+      label: Sürüm
+      description: Releases sayfasındaki ya da `version.txt` içindeki sürüm
+      placeholder: "1.4.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: stage
+    attributes:
+      label: Sorun nerede?
+      options:
+        - Güncelleme hiç kontrol edilmiyor (çıktı yok)
+        - "İndirilsin mi? [E/h] ekranında takılıyor"
+        - İndirme sırasında hata (404 / PE hatası)
+        - İndiriyor ama enjeksiyon çalışmıyor
+        - Menüde "Update available" uyarısı yanlış görünüyor
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Windows sürümü
+      placeholder: "Windows 11 23H2"
+
+  - type: input
+    id: av
+    attributes:
+      label: Antivirüs
+      placeholder: "Defender / Kaspersky / ..."
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Konsol çıktısı
+      description: Injector penceresinin tamamını yapıştır
+      render: shell
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Kontrol
+      options:
+        - label: En son sürümü denedim
+          required: true
+        - label: "`OsirisInjector.ini` içinde `enabled=1` ve `url=` dolu"
+          required: true

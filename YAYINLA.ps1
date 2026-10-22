@@ -34,6 +34,9 @@ $versionFile = Join-Path $osiris "version.txt"
 if (-not (Test-Path $versionFile)) { Write-Host "[HATA] $versionFile yok"; exit 1 }
 $version = (Get-Content $versionFile -TotalCount 1).Trim()
 if ($version -notmatch '^\d+\.\d+\.\d+$') { Write-Host "[HATA] gecersiz surum: '$version'"; exit 1 }
+Write-Host ""
+Write-Host "=== OSIRIS YAYIN - surum $version ==="
+Write-Host "    $repoWeb"
 
 # --- 2) derleme kontrolu ---
 $dllPath = Join-Path $osiris "x64\Release\Osiris.dll"
@@ -87,7 +90,7 @@ try {
     $changelogPath = Join-Path $pub "CHANGELOG.md"
     if (Test-Path $changelogPath) {
         $changelog = [System.IO.File]::ReadAllText($changelogPath)
-        $match = [regex]::Match($changelog, "(?ms)^## $([regex]::Escape($version))\b.*?(?=^## |\z)")
+        $match = [regex]::Match($changelog, "(?ms)^## \[?$([regex]::Escape($version))\]?(\s|$).*?(?=^## |\z)")
         if ($match.Success) { $notes = $match.Value.Trim() }
     }
     $body = @{ tag_name = $tag; target_commitish = "main"; name = "Osiris $version"; body = $notes; draft = $false; prerelease = $false } | ConvertTo-Json

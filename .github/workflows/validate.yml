@@ -1,0 +1,46 @@
+name: validate
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  repo-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: version.txt bicimi
+        run: |
+          set -eu pipefail
+          v=$(sed -n '1p' version.txt | tr -d '\r')
+          u=$(sed -n '2p' version.txt | tr -d '\r')
+          echo "surum=$v"
+          echo "url=$u"
+          echo "$v" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$' || { echo "::error::1. satir x.y.z degil: '$v'"; exit 1; }
+          echo "$u" | grep -Eq '^https://.+' || { echo "::error::2. satir https URL degil: '$u'"; exit 1; }
+
+      - name: README rozeti senkron
+        run: |
+          set -eu pipefail
+          v=$(sed -n '1p' version.txt | tr -d '\r')
+          grep -q -- "version-$v" README.md || { echo "::error::README rozeti ($v) version.txt ile uyumsuz"; exit 1; }
+
+      - name: CHANGELOG kaydi
+        run: |
+          set -eu pipefail
+          v=$(sed -n '1p' version.txt | tr -d '\r')
+          if grep -Eq "^## \[?${v}\]? " CHANGELOG.md || grep -Eq "^## \[?${v}\]?$" CHANGELOG.md; then
+            echo "CHANGELOG kaydi bulundu: $v"
+          else
+            echo "::warning::CHANGELOG.md icinde $v bolumu yok"
+          fi
+
+      - name: yasak dosyalar kontrolu
+        run: |
+          set -eu pipefail
+          bad=$(git ls-files | grep -E '(^|/)(x64|Debug|\.vs)/|\.obj$|\.user$' || true)
+          if [ -n "$bad" ]; then echo "::error::commit edilmemesi gereken dosyalar var: $bad"; exit 1; fi
+          echo "temiz"

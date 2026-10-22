@@ -1,0 +1,16 @@
+# Windows
+Thumbs.db
+Desktop.ini
+*.lnk
+
+# derleme artiklari (repo hicbir zaman commit etmez)
+x64/
+Debug/
+.vs/
+*.obj
+*.opendb
+*.suo
+*.user
+
+# yerel gizli dosyalar
+OsirisInjector.ini
