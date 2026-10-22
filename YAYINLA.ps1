@@ -130,8 +130,9 @@ try {
         if ($match.Success) { $notes = $match.Value.Trim() }
     }
     $body = @{ tag_name = $tag; target_commitish = "main"; name = "HRX $version"; body = $notes; draft = $false; prerelease = $false } | ConvertTo-Json
+    $bodyBytes = [System.Text.Encoding]::UTF8.GetBytes($body)
     try {
-        $release = Invoke-RestMethod -Uri "$repoApi/releases" -Method Post -Headers $headers -Body $body -TimeoutSec 30
+        $release = Invoke-RestMethod -Uri "$repoApi/releases" -Method Post -Headers $headers -Body $bodyBytes -ContentType "application/json; charset=utf-8" -TimeoutSec 30
         Detail "release olusturuldu: $tag" "DarkGreen"
     } catch {
         Fail "release olusturulamadi: $($_.ErrorDetails.Message)"
