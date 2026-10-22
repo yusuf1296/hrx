@@ -7,7 +7,7 @@ Kısa ve net kurallar:
 | Parça | Komut |
 | --- | --- |
 | DLL (Osiris) | `osiris\Osiris.sln` → **Release \| x64** (ya da MSBuild) |
-| Injector | `osiris-injector\build.bat` (tek çeviri birimi, `winlearn`/`winhttp` pragma'lı) |
+| Injector | `osiris-injector\build.bat` (tek çeviri birimi, `winhttp` pragma'lı) |
 
 ## Değişiklik gönderirken (PR / push)
 

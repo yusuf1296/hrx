@@ -54,7 +54,7 @@ OsirisInjector.exe [dll-yolu] [--pid N | --process ad.exe] [--wait] [--keep-head
 | `--wait` | Süreci 60 sn bekler |
 | `--keep-headers` | Enjeksiyonda PE header'ları silmez (varsayılan: siler) |
 
-`--check-update` hem kısayol (`--pid` vs. ile) hem de güncelleme kontrolü için aynı oturumda kullanılabilir; kontrol biter bitmez çıkış kodu ile döner.
+`--check-update` güncelleme akışını uçtan uca çalıştırır (onay verirsen indirir de) ama **enjeksiyon yapmadan çıkış kodu 0 ile döner**.
 
 ## OsirisInjector.ini
 
